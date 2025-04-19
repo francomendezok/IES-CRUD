@@ -31,29 +31,29 @@
             dgvProductos = new DataGridView();
             Productos = new Label();
             label1 = new Label();
-            numericUpDown1 = new NumericUpDown();
-            numericUpDown2 = new NumericUpDown();
+            numCodigo = new NumericUpDown();
+            numPrecio = new NumericUpDown();
             lblPrecio = new Label();
-            numericUpDown3 = new NumericUpDown();
+            numStock = new NumericUpDown();
             lblStock = new Label();
-            textBox1 = new TextBox();
+            txtNombre = new TextBox();
             lblNombre = new Label();
             lblDescripcion = new Label();
-            textBox2 = new TextBox();
+            txtDescripcion = new TextBox();
             lblCategorias = new Label();
-            textBox3 = new TextBox();
+            txtCategoria = new TextBox();
             label2 = new Label();
             label3 = new Label();
-            numericUpDown4 = new NumericUpDown();
+            numEliminar = new NumericUpDown();
             label4 = new Label();
             btnEliminar = new Button();
             btnCrear = new Button();
             button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numCodigo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numPrecio).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numStock).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numEliminar).BeginInit();
             SuspendLayout();
             // 
             // dgvProductos
@@ -82,19 +82,21 @@
             label1.TabIndex = 3;
             label1.Text = "Codigo";
             // 
-            // numericUpDown1
+            // numCodigo
             // 
-            numericUpDown1.Location = new Point(76, 104);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(120, 23);
-            numericUpDown1.TabIndex = 4;
+            numCodigo.Location = new Point(76, 104);
+            numCodigo.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            numCodigo.Name = "numCodigo";
+            numCodigo.Size = new Size(120, 23);
+            numCodigo.TabIndex = 4;
             // 
-            // numericUpDown2
+            // numPrecio
             // 
-            numericUpDown2.Location = new Point(76, 166);
-            numericUpDown2.Name = "numericUpDown2";
-            numericUpDown2.Size = new Size(120, 23);
-            numericUpDown2.TabIndex = 6;
+            numPrecio.Location = new Point(76, 166);
+            numPrecio.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numPrecio.Name = "numPrecio";
+            numPrecio.Size = new Size(120, 23);
+            numPrecio.TabIndex = 6;
             // 
             // lblPrecio
             // 
@@ -105,12 +107,13 @@
             lblPrecio.TabIndex = 5;
             lblPrecio.Text = "Precio";
             // 
-            // numericUpDown3
+            // numStock
             // 
-            numericUpDown3.Location = new Point(227, 166);
-            numericUpDown3.Name = "numericUpDown3";
-            numericUpDown3.Size = new Size(120, 23);
-            numericUpDown3.TabIndex = 8;
+            numStock.Location = new Point(227, 166);
+            numStock.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            numStock.Name = "numStock";
+            numStock.Size = new Size(120, 23);
+            numStock.TabIndex = 8;
             // 
             // lblStock
             // 
@@ -121,12 +124,12 @@
             lblStock.TabIndex = 7;
             lblStock.Text = "Stock";
             // 
-            // textBox1
+            // txtNombre
             // 
-            textBox1.Location = new Point(227, 103);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 23);
-            textBox1.TabIndex = 9;
+            txtNombre.Location = new Point(227, 103);
+            txtNombre.Name = "txtNombre";
+            txtNombre.Size = new Size(100, 23);
+            txtNombre.TabIndex = 9;
             // 
             // lblNombre
             // 
@@ -146,28 +149,28 @@
             lblDescripcion.TabIndex = 12;
             lblDescripcion.Text = "Descripcion";
             // 
-            // textBox2
+            // txtDescripcion
             // 
-            textBox2.Location = new Point(361, 104);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(100, 23);
-            textBox2.TabIndex = 11;
+            txtDescripcion.Location = new Point(361, 104);
+            txtDescripcion.Name = "txtDescripcion";
+            txtDescripcion.Size = new Size(100, 23);
+            txtDescripcion.TabIndex = 11;
             // 
             // lblCategorias
             // 
             lblCategorias.AutoSize = true;
             lblCategorias.Location = new Point(361, 148);
             lblCategorias.Name = "lblCategorias";
-            lblCategorias.Size = new Size(63, 15);
+            lblCategorias.Size = new Size(58, 15);
             lblCategorias.TabIndex = 14;
-            lblCategorias.Text = "Categorias";
+            lblCategorias.Text = "Categoria";
             // 
-            // textBox3
+            // txtCategoria
             // 
-            textBox3.Location = new Point(361, 166);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(100, 23);
-            textBox3.TabIndex = 13;
+            txtCategoria.Location = new Point(361, 166);
+            txtCategoria.Name = "txtCategoria";
+            txtCategoria.Size = new Size(100, 23);
+            txtCategoria.TabIndex = 13;
             // 
             // label2
             // 
@@ -189,12 +192,12 @@
             label3.TabIndex = 16;
             label3.Text = "Eliminar Producto";
             // 
-            // numericUpDown4
+            // numEliminar
             // 
-            numericUpDown4.Location = new Point(494, 105);
-            numericUpDown4.Name = "numericUpDown4";
-            numericUpDown4.Size = new Size(120, 23);
-            numericUpDown4.TabIndex = 18;
+            numEliminar.Location = new Point(494, 105);
+            numEliminar.Name = "numEliminar";
+            numEliminar.Size = new Size(120, 23);
+            numEliminar.TabIndex = 18;
             // 
             // label4
             // 
@@ -213,6 +216,7 @@
             btnEliminar.TabIndex = 19;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // btnCrear
             // 
@@ -222,6 +226,7 @@
             btnCrear.TabIndex = 20;
             btnCrear.Text = "Crear";
             btnCrear.UseVisualStyleBackColor = true;
+            btnCrear.Click += btnCrear_Click;
             // 
             // button1
             // 
@@ -240,21 +245,21 @@
             Controls.Add(button1);
             Controls.Add(btnCrear);
             Controls.Add(btnEliminar);
-            Controls.Add(numericUpDown4);
+            Controls.Add(numEliminar);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(lblCategorias);
-            Controls.Add(textBox3);
+            Controls.Add(txtCategoria);
             Controls.Add(lblDescripcion);
-            Controls.Add(textBox2);
+            Controls.Add(txtDescripcion);
             Controls.Add(lblNombre);
-            Controls.Add(textBox1);
-            Controls.Add(numericUpDown3);
+            Controls.Add(txtNombre);
+            Controls.Add(numStock);
             Controls.Add(lblStock);
-            Controls.Add(numericUpDown2);
+            Controls.Add(numPrecio);
             Controls.Add(lblPrecio);
-            Controls.Add(numericUpDown1);
+            Controls.Add(numCodigo);
             Controls.Add(label1);
             Controls.Add(Productos);
             Controls.Add(dgvProductos);
@@ -262,10 +267,10 @@
             Text = "Form1";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numCodigo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numPrecio).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numStock).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numEliminar).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -275,20 +280,20 @@
         private DataGridView dgvProductos;
         private Label Productos;
         private Label label1;
-        private NumericUpDown numericUpDown1;
-        private NumericUpDown numericUpDown2;
+        private NumericUpDown numCodigo;
+        private NumericUpDown numPrecio;
         private Label lblPrecio;
-        private NumericUpDown numericUpDown3;
+        private NumericUpDown numStock;
         private Label lblStock;
-        private TextBox textBox1;
+        private TextBox txtNombre;
         private Label lblNombre;
         private Label lblDescripcion;
-        private TextBox textBox2;
+        private TextBox txtDescripcion;
         private Label lblCategorias;
-        private TextBox textBox3;
+        private TextBox txtCategoria;
         private Label label2;
         private Label label3;
-        private NumericUpDown numericUpDown4;
+        private NumericUpDown numEliminar;
         private Label label4;
         private Button btnEliminar;
         private Button btnCrear;
