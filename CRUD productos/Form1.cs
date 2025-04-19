@@ -59,5 +59,31 @@ namespace CRUD_productos
 
             conexion.CrearProducto(codigo, nombre, descripcion, precio, stock, categoria);
         }
+
+        private void btnModificar_Click(object sender, EventArgs e) // btn modificar // 
+        {
+            int codigo = Convert.ToInt32(numCodigo.Value);
+            string nombre = txtNombre.Text;
+            string descripcion = txtDescripcion.Text;
+            int precio = Convert.ToInt32(numPrecio.Value);
+            int stock = Convert.ToInt32(numStock.Value);
+            string categoria = txtCategoria.Text;
+
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(descripcion) || string.IsNullOrEmpty(categoria))
+            {
+                MessageBox.Show("Por favor, complete todos los campos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // chequeo que el codigo este en la db //
+
+            if (conexion.ChequearDisponibilidadCodigo(codigo))
+            {
+                MessageBox.Show("El producto no esta en la base de datos. Elija un producto de la base de datos para modificarlo. Recuerda que no puedes modificar su codigo de referencia", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            else conexion.ModificarProducto(codigo, nombre, descripcion, precio, stock, categoria);
+        }
     }
 }

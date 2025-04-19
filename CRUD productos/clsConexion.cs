@@ -95,7 +95,6 @@ namespace CRUD_productos
 
                     if (count > 0)
                     {
-                        MessageBox.Show("El código ya existe. Por favor, elija otro.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
                     return true; // si no existe el codigo, lo devuelvo como true //
@@ -137,7 +136,46 @@ namespace CRUD_productos
             {
                 MessageBox.Show("Error al crear el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        } 
+        }
+
+        public void ModificarProducto(int codigo, string nombre, string descripcion, int precio, int stock, string categoria)
+        {
+            try
+            {
+                if (connection == null || connection.State != ConnectionState.Open)
+                {
+                    MessageBox.Show("La conexión a la base de datos no está abierta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string query = "UPDATE productos SET nombre = @nombre, descripcion = @descripcion, precio = @precio, stock = @stock, categoria = @categoria WHERE codigo = @codigo";
+                using (OleDbCommand cmd = new OleDbCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    cmd.Parameters.AddWithValue("@descripcion", descripcion);
+                    cmd.Parameters.AddWithValue("@precio", precio);
+                    cmd.Parameters.AddWithValue("@stock", stock);
+                    cmd.Parameters.AddWithValue("@categoria", categoria);
+                    cmd.Parameters.AddWithValue("@codigo", codigo);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Producto modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefrescarTabla(); // refresco la tabla para mostrar los cambios
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontró ningún producto con el código especificado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al modificar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 
 }

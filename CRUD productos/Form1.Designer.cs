@@ -48,7 +48,7 @@
             label4 = new Label();
             btnEliminar = new Button();
             btnCrear = new Button();
-            button1 = new Button();
+            btnModificar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numCodigo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPrecio).BeginInit();
@@ -228,21 +228,22 @@
             btnCrear.UseVisualStyleBackColor = true;
             btnCrear.Click += btnCrear_Click;
             // 
-            // button1
+            // btnModificar
             // 
-            button1.Location = new Point(188, 52);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 21;
-            button1.Text = "Modificar";
-            button1.UseVisualStyleBackColor = true;
+            btnModificar.Location = new Point(188, 52);
+            btnModificar.Name = "btnModificar";
+            btnModificar.Size = new Size(75, 23);
+            btnModificar.TabIndex = 21;
+            btnModificar.Text = "Modificar";
+            btnModificar.UseVisualStyleBackColor = true;
+            btnModificar.Click += btnModificar_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button1);
+            Controls.Add(btnModificar);
             Controls.Add(btnCrear);
             Controls.Add(btnEliminar);
             Controls.Add(numEliminar);
@@ -297,6 +298,6 @@
         private Label label4;
         private Button btnEliminar;
         private Button btnCrear;
-        private Button button1;
+        private Button btnModificar;
     }
 }
