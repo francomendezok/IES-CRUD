@@ -20,7 +20,11 @@ namespace CRUD_productos
         {
             try
             {
+<<<<<<< HEAD
                 string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"C:\\Users\\franc\\Desktop\\Facultad\\Laboratorio 3\\CRUD productos\\CRUD productos\\bin\\crud.accdb\"";
+=======
+                string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\CRUD productos\\CRUD productos\\bin\\crud.accdb;";
+>>>>>>> f1e09d647b8ba46d3b6e285541fd4076fbe0669c
                 
                 connection = new OleDbConnection(connectionString);
                 connection.Open();
