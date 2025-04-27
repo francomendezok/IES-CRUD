@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUD productos", "CRUD productos\CRUD productos.csproj", "{4BFF1981-76F0-429D-8A26-5FC9B1CF18FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUD_Productos_Inventario", "CRUD productos\CRUD_Productos_Inventario.csproj", "{4BFF1981-76F0-429D-8A26-5FC9B1CF18FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

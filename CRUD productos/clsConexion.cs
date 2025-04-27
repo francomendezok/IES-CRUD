@@ -8,6 +8,7 @@ using System.Data.OleDb;
 using System.Security;
 using System.Data;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace CRUD_productos
 {
@@ -20,7 +21,7 @@ namespace CRUD_productos
         {
             try
             {
-                string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"C:\\Users\\franc\\Desktop\\Facultad\\Laboratorio 3\\CRUD productos\\CRUD productos\\bin\\crud.accdb\"";
+                string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"C:\\Users\\AmaHogar\\Desktop\\Facultad\\Laboratorio 3\\CRUD productos\\CRUD productos\\bin\\crud.accdb\"";
                 
                 connection = new OleDbConnection(connectionString);
                 connection.Open();

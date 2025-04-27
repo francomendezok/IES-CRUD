@@ -5,10 +5,10 @@ using System.Windows.Forms;
 
 namespace CRUD_productos
 {
-    public partial class Form1 : Form
+    public partial class frmPrincipal : Form
     {
         private clsConexion conexion;
-        public Form1()
+        public frmPrincipal()
         {
             InitializeComponent();
             conexion = new clsConexion();
