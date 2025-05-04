@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPrincipal));
             dgvProductos = new DataGridView();
             Productos = new Label();
             label1 = new Label();
@@ -49,6 +50,9 @@
             btnEliminar = new Button();
             btnCrear = new Button();
             btnModificar = new Button();
+            btnBuscar = new Button();
+            label5 = new Label();
+            txtBuscar = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numCodigo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPrecio).BeginInit();
@@ -176,7 +180,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(76, 9);
+            label2.Location = new Point(74, 9);
             label2.Name = "label2";
             label2.Size = new Size(283, 32);
             label2.TabIndex = 15;
@@ -220,7 +224,7 @@
             // 
             // btnCrear
             // 
-            btnCrear.Location = new Point(76, 53);
+            btnCrear.Location = new Point(74, 53);
             btnCrear.Name = "btnCrear";
             btnCrear.Size = new Size(75, 23);
             btnCrear.TabIndex = 20;
@@ -230,7 +234,7 @@
             // 
             // btnModificar
             // 
-            btnModificar.Location = new Point(188, 52);
+            btnModificar.Location = new Point(227, 53);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(75, 23);
             btnModificar.TabIndex = 21;
@@ -238,11 +242,41 @@
             btnModificar.UseVisualStyleBackColor = true;
             btnModificar.Click += btnModificar_Click;
             // 
-            // Form1
+            // btnBuscar
+            // 
+            btnBuscar.Location = new Point(640, 216);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(75, 23);
+            btnBuscar.TabIndex = 24;
+            btnBuscar.Text = "Buscar";
+            btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(297, 216);
+            label5.Name = "label5";
+            label5.Size = new Size(219, 15);
+            label5.TabIndex = 23;
+            label5.Text = "Buscar por Nombre, Categoria o Codigo";
+            // 
+            // txtBuscar
+            // 
+            txtBuscar.Location = new Point(522, 216);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.Size = new Size(100, 23);
+            txtBuscar.TabIndex = 22;
+            // 
+            // frmPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Info;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnBuscar);
+            Controls.Add(label5);
+            Controls.Add(txtBuscar);
             Controls.Add(btnModificar);
             Controls.Add(btnCrear);
             Controls.Add(btnEliminar);
@@ -264,8 +298,9 @@
             Controls.Add(label1);
             Controls.Add(Productos);
             Controls.Add(dgvProductos);
-            Name = "Form1";
-            Text = "Form1";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "frmPrincipal";
+            Text = "CRUD Productos";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ((System.ComponentModel.ISupportInitialize)numCodigo).EndInit();
@@ -299,5 +334,8 @@
         private Button btnEliminar;
         private Button btnCrear;
         private Button btnModificar;
+        private Button btnBuscar;
+        private Label label5;
+        private TextBox txtBuscar;
     }
 }

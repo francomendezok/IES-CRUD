@@ -85,5 +85,13 @@ namespace CRUD_productos
 
             else conexion.ModificarProducto(codigo, nombre, descripcion, precio, stock, categoria);
         }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string busqueda = txtBuscar.Text;
+            
+            conexion.Buscar(busqueda);
+            
+        }
     }
 }

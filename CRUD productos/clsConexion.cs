@@ -176,7 +176,29 @@ namespace CRUD_productos
                 MessageBox.Show("Error al modificar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        public void Buscar(string busqueda)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(busqueda))
+                {
+                    RefrescarTabla();
+                    return;
+                }
+                string query = "SELECT * FROM productos WHERE nombre LIKE @busqueda OR descripcion LIKE @busqueda OR codigo LIKE @busqueda OR categoria LIKE @busqueda";
+                using (OleDbCommand cmd = new OleDbCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@busqueda", "%" + busqueda + "%");
+                    OleDbDataAdapter adapter = new OleDbDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    tabla.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
-
 }
