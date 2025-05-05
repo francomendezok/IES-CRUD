@@ -1,204 +1,165 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Data.OleDb;
-using System.Security;
+﻿using Npgsql;
+using System;
 using System.Data;
 using System.Windows.Forms;
-using Microsoft.VisualBasic.ApplicationServices;
 
 namespace CRUD_productos
 {
-    internal class clsConexion
+    public class clsConexion
     {
-        private OleDbConnection connection;
-        private DataGridView tabla;
+        private readonly string connectionString;
 
-        public void Conectar(DataGridView tabla)
+        public clsConexion()
         {
+            connectionString = "Host=localhost;Port=5432;Database=contactos_db;Username=postgres;Password=franco123;";
+        }
+
+        public NpgsqlConnection ObtenerConexion()
+        {
+            NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            connection.Open(); // Lanza excepción si falla
+            return connection;
+        }
+
+        public DataTable ObtenerContactos()
+        {
+            string query = "SELECT * FROM contactos ORDER BY id";
+            DataTable dataTable = new DataTable();
+
             try
             {
-                string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"C:\\Users\\AmaHogar\\Desktop\\Facultad\\Laboratorio 3\\CRUD productos\\CRUD productos\\bin\\crud.accdb\"";
-                
-                connection = new OleDbConnection(connectionString);
-                connection.Open();
-                MessageBox.Show("Conexión exitosa.");
-
-                this.tabla = tabla; // asigno la tabla a la variable de clase //
-                CargarDatos();
-                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-        public void CargarDatos()
-        {
-            if (connection == null || tabla == null) return;
-  
-            string query = "SELECT * FROM productos ORDER BY codigo";
-
-            OleDbDataAdapter adapter = new OleDbDataAdapter(query, connection);
-        
-            DataTable dt = new DataTable();
-            adapter.Fill(dt);
-
-            tabla.DataSource = dt;
-        }
-
-        public void RefrescarTabla()
-        {
-            CargarDatos();
-        }
-
-        public void EliminarProducto(int productId)
-        {
-            try
-            {
-                string query = "DELETE FROM productos WHERE codigo = @Id";
-
-                using (OleDbCommand cmd = new OleDbCommand(query, connection))
+                using (NpgsqlConnection connection = ObtenerConexion())
+                using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+                using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(command))
                 {
-                    cmd.Parameters.AddWithValue("@Id", productId); // para evitar inyecciones SQL // 
-
-                    int rowsAffected = cmd.ExecuteNonQuery(); // ejecuto la query y veo a cuantas rows afecto //
-
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Producto eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se encontró el producto con el ID especificado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
+                    adapter.Fill(dataTable);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al eliminar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al obtener los datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            return dataTable;
         }
 
-        public bool ChequearDisponibilidadCodigo(int codigo)
+        public void CrearContacto(string nombre, string apellido, int telefono, string correo, string categoria)
         {
+            string query = "INSERT INTO contactos (nombre, apellido, telefono, correo, categoria) VALUES (@nombre, @apellido, @telefono, @correo, @categoria)";
+
             try
             {
-                string query = "SELECT COUNT(*) FROM productos WHERE codigo = @Id"; // count
-                using (OleDbCommand cmd = new OleDbCommand(query, connection))
-                {
-                    cmd.Parameters.AddWithValue("@Id", codigo);
-                    int count = Convert.ToInt32(cmd.ExecuteScalar());
-
-                    if (count > 0)
-                    {
-                        return false;
-                    }
-                    return true; // si no existe el codigo, lo devuelvo como true //
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al verificar el código: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }
-
-        public void CrearProducto(int codigo, string nombre, string descripcion, int precio, int stock, string categoria)
-        {
-            try
-            {
-                string query = "INSERT INTO productos (codigo, nombre, descripcion, precio, stock, categoria) VALUES (@Id, @nombre, @descripcion, @precio, @stock, @categoria)";
-                using (OleDbCommand cmd = new OleDbCommand(query, connection))
-                {
-                    cmd.Parameters.AddWithValue("@codigo", codigo);
-                    cmd.Parameters.AddWithValue("@nombre", nombre);
-                    cmd.Parameters.AddWithValue("@descripcion", descripcion);
-                    cmd.Parameters.AddWithValue("@precio", precio);
-                    cmd.Parameters.AddWithValue("@stock", stock);
-                    cmd.Parameters.AddWithValue("@categoria", categoria);
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Producto creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        RefrescarTabla(); // refresco la tabla para mostrar el nuevo producto //
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error al crear el producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al crear el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public void ModificarProducto(int codigo, string nombre, string descripcion, int precio, int stock, string categoria)
-        {
-            try
-            {
-                if (connection == null || connection.State != ConnectionState.Open)
-                {
-                    MessageBox.Show("La conexión a la base de datos no está abierta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                string query = "UPDATE productos SET nombre = @nombre, descripcion = @descripcion, precio = @precio, stock = @stock, categoria = @categoria WHERE codigo = @codigo";
-                using (OleDbCommand cmd = new OleDbCommand(query, connection))
+                using (NpgsqlConnection connection = ObtenerConexion())
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, connection))
                 {
                     cmd.Parameters.AddWithValue("@nombre", nombre);
-                    cmd.Parameters.AddWithValue("@descripcion", descripcion);
-                    cmd.Parameters.AddWithValue("@precio", precio);
-                    cmd.Parameters.AddWithValue("@stock", stock);
+                    cmd.Parameters.AddWithValue("@apellido", apellido);
+                    cmd.Parameters.AddWithValue("@telefono", telefono);
+                    cmd.Parameters.AddWithValue("@correo", correo);
                     cmd.Parameters.AddWithValue("@categoria", categoria);
-                    cmd.Parameters.AddWithValue("@codigo", codigo);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
                     if (rowsAffected > 0)
                     {
-                        MessageBox.Show("Producto modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        RefrescarTabla(); // refresco la tabla para mostrar los cambios
+                        MessageBox.Show("Contacto creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        MessageBox.Show("No se encontró ningún producto con el código especificado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Error al crear el contacto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al crear el contacto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public void Buscar(string busqueda)
+
+        public void ModificarContacto(int telefono, string nombre, string apellido, string correo, string categoria)
         {
+            string query = "UPDATE contactos SET nombre = @nombre, apellido = @apellido, correo = @correo, categoria = @categoria WHERE telefono = @telefono";
+
             try
             {
-                if (String.IsNullOrEmpty(busqueda))
+                using (NpgsqlConnection connection = ObtenerConexion())
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, connection))
                 {
-                    RefrescarTabla();
-                    return;
-                }
-                string query = "SELECT * FROM productos WHERE nombre LIKE @busqueda OR descripcion LIKE @busqueda OR codigo LIKE @busqueda OR categoria LIKE @busqueda";
-                using (OleDbCommand cmd = new OleDbCommand(query, connection))
-                {
-                    cmd.Parameters.AddWithValue("@busqueda", "%" + busqueda + "%");
-                    OleDbDataAdapter adapter = new OleDbDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-                    tabla.DataSource = dt;
+                    cmd.Parameters.AddWithValue("@telefono", telefono);
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    cmd.Parameters.AddWithValue("@apellido", apellido);
+                    cmd.Parameters.AddWithValue("@correo", correo);
+                    cmd.Parameters.AddWithValue("@categoria", categoria);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Contacto modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontró ningún contacto con el teléfono especificado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al buscar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al modificar el contacto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public void EliminarContacto(int telefono)
+        {
+            string query = "DELETE FROM contactos WHERE telefono = @telefono";
+
+            try
+            {
+                using (NpgsqlConnection connection = ObtenerConexion())
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@telefono", telefono);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Contacto eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontró ningún contacto con el teléfono especificado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al eliminar el contacto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        public DataTable BuscarContactos(string busqueda)
+        {
+            string query = "SELECT * FROM contactos WHERE nombre ILIKE @busqueda OR apellido ILIKE @busqueda OR telefono ILIKE @busqueda OR correo ILIKE @busqueda OR categoria ILIKE @busqueda";
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (NpgsqlConnection connection = ObtenerConexion())
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@busqueda", $"%{busqueda}%");
+
+                    using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(dataTable);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al buscar contactos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return dataTable;
         }
     }
 }

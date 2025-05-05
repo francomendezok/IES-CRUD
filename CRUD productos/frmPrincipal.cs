@@ -1,14 +1,14 @@
 using System;
 using System.Data;
-using System.Data.OleDb;
 using System.Windows.Forms;
 
 namespace CRUD_productos
 {
-    public partial class frmPrincipal : Form
+    public partial class frmContactos : Form
     {
         private clsConexion conexion;
-        public frmPrincipal()
+
+        public frmContactos()
         {
             InitializeComponent();
             conexion = new clsConexion();
@@ -16,82 +16,80 @@ namespace CRUD_productos
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            conexion.Conectar(dgvProductos);
+            RefrescarTabla();
+        }
+
+        private void RefrescarTabla()
+        {
+            DataTable contactos = conexion.ObtenerContactos();
+            if (contactos != null)
+            {
+                dgvContactos.DataSource = contactos; // cargo la dgv // 
+            }
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (numEliminar.Value != 0)
-            {
-                conexion.EliminarProducto(Convert.ToInt32(numEliminar.Value));
+            int telefono = Convert.ToInt32(numEliminar.Value);
 
-                // limpio la tabla // 
-                conexion.RefrescarTabla();
+            if (telefono != 0)
+            {
+                conexion.EliminarContacto(telefono);
+                RefrescarTabla();
             }
             else
             {
-                MessageBox.Show("Por favor, seleccione un producto para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, seleccione un contacto para eliminar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+
 
         private void btnCrear_Click(object sender, EventArgs e)
         {
-            int codigo = Convert.ToInt32(numCodigo.Value);
             string nombre = txtNombre.Text;
-            string descripcion = txtDescripcion.Text;
-            int precio = Convert.ToInt32(numPrecio.Value);
-            int stock = Convert.ToInt32(numStock.Value);
+            string apellido = txtApellido.Text;
+            int telefono = Convert.ToInt32(numTelefono.Value);
+            string correo = txtCorreo.Text;
             string categoria = txtCategoria.Text;
 
-            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(descripcion) || string.IsNullOrEmpty(categoria))
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(apellido) || telefono == 0|| string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(categoria))
             {
                 MessageBox.Show("Por favor, complete todos los campos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // chequeo que el codigo no este en la db //
-
-            if (!conexion.ChequearDisponibilidadCodigo(codigo))
-            {
-                MessageBox.Show("El código ya existe. Por favor, elija otro.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            conexion.CrearProducto(codigo, nombre, descripcion, precio, stock, categoria);
+            conexion.CrearContacto(nombre, apellido, telefono, correo, categoria);
+            RefrescarTabla();
         }
 
-        private void btnModificar_Click(object sender, EventArgs e) // btn modificar // 
+        private void btnModificar_Click(object sender, EventArgs e)
         {
-            int codigo = Convert.ToInt32(numCodigo.Value);
+            int telefono = Convert.ToInt32(numTelefono.Value);
             string nombre = txtNombre.Text;
-            string descripcion = txtDescripcion.Text;
-            int precio = Convert.ToInt32(numPrecio.Value);
-            int stock = Convert.ToInt32(numStock.Value);
+            string apellido = txtApellido.Text;
+            string correo = txtCorreo.Text;
             string categoria = txtCategoria.Text;
 
-            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(descripcion) || string.IsNullOrEmpty(categoria))
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(apellido) || string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(categoria))
             {
                 MessageBox.Show("Por favor, complete todos los campos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // chequeo que el codigo este en la db //
-
-            if (conexion.ChequearDisponibilidadCodigo(codigo))
-            {
-                MessageBox.Show("El producto no esta en la base de datos. Elija un producto de la base de datos para modificarlo. Recuerda que no puedes modificar su codigo de referencia", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            else conexion.ModificarProducto(codigo, nombre, descripcion, precio, stock, categoria);
+            conexion.ModificarContacto(telefono, nombre, apellido, correo, categoria);
+            RefrescarTabla();
         }
+
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string busqueda = txtBuscar.Text;
-            
-            conexion.Buscar(busqueda);
-            
+            DataTable resultados = conexion.BuscarContactos(busqueda);
+            if (resultados != null)
+            {
+                dgvContactos.DataSource = resultados;
+            }
         }
     }
 }
