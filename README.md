@@ -17,7 +17,8 @@ Implementación de una interfaz intuitiva usando Windows Forms.
 (Se permite enriquecerla utilizando paquetes NuGet.)
 
 
-![Captura de pantalla 2025-05-05 195552](https://github.com/user-attachments/assets/f2e5538b-10f7-4bcf-b8bd-6659dbd4f356)
+![Captura de pantalla 2025-05-05 195327](https://github.com/user-attachments/assets/b4da84a0-54ab-4a2c-8872-24c449d46c86)
+
 
 Validación de Datos:
 Mecanismos para garantizar la integridad de los datos ingresados.
@@ -50,7 +51,7 @@ Buscar productos por nombre, código o categoría.
 
 ![Captura de pantalla 2025-05-05 195424](https://github.com/user-attachments/assets/fe62863a-10c1-46d7-8679-6786e8ba918e)
 
-Base de Datos
+Base de Datos (en Access)
 Tabla: Productos
 
 Código
@@ -62,14 +63,3 @@ Descripción
 Precio
 
 Stock
-
-Tabla: Categorías
-
-(La base de datos se diseñó en Microsoft Access.)
-
-🧠 Análisis
-Antes de la implementación:
-
-Analizar la situación del negocio.
-
-Definir una estructura de datos eficiente y adecuada.
