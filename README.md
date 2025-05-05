@@ -7,10 +7,15 @@ Ejercitar la resolución de actividades aplicando conocimientos de programación
 🛠 Requisitos
 Diseño de Base de Datos:
 Estructura clara con relaciones bien definidas entre tablas.
+![Captura de pantalla 2025-05-04 195755](https://github.com/user-attachments/assets/8a6ed2ef-baa5-45ad-a288-1848333f2cc6)
+![Captura de pantalla 2025-05-04 195811](https://github.com/user-attachments/assets/eae95467-f399-459d-bf22-7551c2864251)
+![Captura de pantalla 2025-05-04 195859](https://github.com/user-attachments/assets/10c84081-c6a8-4ca8-ac45-fd4589aca3db)
+
 
 Interfaz de Usuario:
 Implementación de una interfaz intuitiva usando Windows Forms.
 (Se permite enriquecerla utilizando paquetes NuGet.)
+![Captura de pantalla 2025-05-04 214029](https://github.com/user-attachments/assets/d1491cec-0b68-4438-acfc-0e6d964b8f18)
 
 Validación de Datos:
 Mecanismos para garantizar la integridad de los datos ingresados.
