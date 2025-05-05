@@ -35,6 +35,8 @@ El proyecto debe ser compatible con Visual Studio y utilizar el Framework .NET 4
 Funcionalidades
 CRUD de Productos:
 Agregar, modificar y eliminar productos.
+
+
 ![Captura de pantalla 2025-05-05 195552](https://github.com/user-attachments/assets/fed9e878-5e69-499f-b70c-c2a23ec651ba)
 
 
